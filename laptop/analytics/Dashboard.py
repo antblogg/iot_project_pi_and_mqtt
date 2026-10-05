@@ -23,8 +23,6 @@ class Dashboard:
     }
 
     def __init__(self, root: tk.Tk ) -> None:
-        #self.headerConfig = GuiBox
-        #self.header = GuiBox
         self.root = root
         self.config = load_config()
 
