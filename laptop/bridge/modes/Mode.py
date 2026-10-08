@@ -6,10 +6,10 @@ from requests.structures import CaseInsensitiveDict
 
 class Mode:
 
-    FOLDER_PATH = __file__+"/../../../"+""
+    FOLDER_PATH = __file__+"/../../../"+"secrets/"
 
     def __init__(self):
-        self.config = self.loadConfig()
+        self._config = self.loadConfig()
         pass
 
     def loadConfig(self) -> CaseInsensitiveDict:
@@ -36,4 +36,22 @@ class Mode:
             userin = input(
             ).upper()
         return userin
+
+    def validatePassword(self) -> bool:
+        password = input("Enter the password:\n")
+        ok = password == self._config["common"]["password"]
+        if not ok:
+            print("Error: Invalid password")
+        return ok
         
+    def setConfigEntry(self, subsystem: str, configEntry):
+        if not self.validatePassword(): return
+        print("Current value:", self.config[subsystem][configEntry])
+        newName = input(f"Input the new {configEntry} name. (Press enter to cancel):\n")
+        if newName == "":
+            print("Cancelled update!")
+            return
+        self.writeConfig({subsystem: {configEntry :newName}})
+        self._config = self.loadConfig()
+        print("Successfully wrote", newName, "as the database name.")
+        return newName

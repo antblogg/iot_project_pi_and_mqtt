@@ -1,40 +1,49 @@
 from bridge.modes.Mode import Mode
 import requests
 import time
+import sys
 
 class ModeThingSpeak(Mode):
     def __init__(self):
         super().__init__()
-        self.config = self.loadConfig()
+        self.config = self._config["thingspeak"]
 
-        input("You're Terry now son")
 
     def enterMode(self):
         self.printMenu()
-        self.getUserInput()
+        while True:
+            option = self.getUserInput()
+            match option:
+                case "S":
+                    break
+                    self.printMenu()
+                case "B":
+                    return
+                case "Q":
+                    sys.exit()
 
      
     def printMenu(self) -> None:
-        print("Now in WiFi mode.")
+        print("Now in Thingspeak mode.")
         print("Current status:")
-        print(f"Connection status: {"Connected" if self.isConnected() else "Disconnected"}")
+        print(f"Connection status: idk")#{"Connected" if self.isConnected() else "Disconnected"}")
 
     def getUserInput(self)-> str:
         prompt = "Select next action"
         options = {
-            "R": "Refresh status",
+            #"S": "Show status",
             "B": "Back",
             "Q": "Quit",
             }
-        while True:
-         super().getUserInput(prompt, options)
+        return super().getUserInput(prompt, options)
 
     def getLastReading(self):
-        read_api_key = self.config["thingspeak"]["read_API_key"]
+        write_api_key = self.config["thingspeak"]["write_API_key"]
         lastReading = requests.get("")
 
     def isConnected(self):
-        lastReading = self.getLastReading()
+        return True
+        
 
 
 

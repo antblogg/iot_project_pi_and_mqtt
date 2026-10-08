@@ -1,49 +1,38 @@
 
-import argparse
 import json
 from pathlib import Path
 from bridge.modes.MainMenu import MainMenu
-from bridge.modes.Database import ModeDatabase
 from bridge.modes.MQTT import ModeMQTT
+from bridge.modes.Database import ModeDatabase
 from bridge.modes.ThingSpeak import ModeThingSpeak
 from bridge.modes.Wifi import ModeWifi
 from requests.structures import CaseInsensitiveDict
-
-class Bridge:
-    FOLDER_PATH = __file__ + "/../"
-    def __init__(self):
-        self.config = self.loadConfig()
-        self.wifi = ModeWifi()
-        self.database = ModeDatabase()
-        self.thingspeak = ModeThingSpeak()
-        self.mqtt = ModeMQTT()
-
-    def loadConfig(self) -> CaseInsensitiveDict:
-        try:
-            with open(self.FOLDER_PATH+"config.json", "r", encoding="utf-8") as f:
-                return CaseInsensitiveDict(json.load(f))
-        except json.JSONDecodeError:
-            print("loadConfig: load failed. Falling back to default config")
-            with open(self.FOLDER_PATH+"default_config.json", "r", encoding="utf-8") as f:
-                return CaseInsensitiveDict(json.load(f))
+from multiprocessing import Queue
+import sys
 
 
 def main():
 
-    mainMenu = MainMenu()
+    sharedQueue = Queue(maxsize=10)
 
+    database = ModeDatabase(sharedQueue)
+    mqtt = ModeMQTT(sharedQueue)
+    ts = ModeThingSpeak()
+
+    mainMenu = MainMenu()
     while True:
         option = mainMenu.getUserInput()
         match option:
             case "D":
-
-                ModeDatabase()
+                database.enterMode()
             case "M":
-                ModeMQTT()
+                mqtt.enterMode()
             case "T":
-                ModeThingSpeak()
-            case "W": # commented out of menu options 
-                ModeWifi()
+                ts.enterMode()
+            case "S":
+                print("System summary:")
+                for name, mode in zip(["Database", "MQTT        ","ThingSpeak"], [database,mqtt,ts]):
+                    print(name +"\t:\t", "Connected" if mode.isConnected else "Disconnected")
             case "Q":
                 return
             
