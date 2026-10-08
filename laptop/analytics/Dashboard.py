@@ -2,13 +2,11 @@ import json
 import tkinter as tk
 from tkinter import ttk
 from typing import Optional
-def load_config() -> dict:
-    config_path = __file__+"/../../config.json"
-    with open(config_path, "r") as f:
-        config = json.load(f) 
-    return config
+from requests.structures import CaseInsensitiveDict
 
 class Dashboard:
+    FOLDER_PATH = __file__+"/../../"+"secrets/"
+
     COLORS = {
         "background": "#F1F5F3",
         "surface": "#FFFFFF",
@@ -24,7 +22,7 @@ class Dashboard:
 
     def __init__(self, root: tk.Tk ) -> None:
         self.root = root
-        self.config = load_config()
+        self.config = self.loadConfig()
 
         self.root.geometry("980x640")
         self.root.minsize(760, 520)
@@ -32,6 +30,15 @@ class Dashboard:
  
         self._configureStyles()
         self._buildLayout()
+
+    def loadConfig(self) -> CaseInsensitiveDict:
+        try:
+            with open(self.FOLDER_PATH+"config.json", "r", encoding="utf-8") as f:
+                return CaseInsensitiveDict(json.load(f))
+        except json.JSONDecodeError:
+            print("loadConfig: load failed. Falling back to default config")
+            with open(self.FOLDER_PATH+"default_config.json", "r", encoding="utf-8") as f:
+                return CaseInsensitiveDict(json.load(f))
 
     def setTitle(self, title: str):
         self.root.title(title)

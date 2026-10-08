@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-from common.Dashboard import Dashboard
+from analytics.Dashboard import Dashboard
 
 class AnalyticsDashboard(Dashboard):
     def __init__(self, root: tk.Tk) -> None:

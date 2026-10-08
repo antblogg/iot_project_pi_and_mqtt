@@ -1,5 +1,5 @@
 
-from common.Dashboard import Dashboard
+from analytics.Dashboard import Dashboard
 
 import json
 from pathlib import Path
