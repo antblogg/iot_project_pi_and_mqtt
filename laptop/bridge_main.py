@@ -5,7 +5,7 @@ from bridge.modes.MainMenu import MainMenu
 from bridge.modes.MQTT import ModeMQTT
 from bridge.modes.Database import ModeDatabase
 from bridge.modes.ThingSpeak import ModeThingSpeak
-from bridge.modes.Wifi import ModeWifi
+
 from requests.structures import CaseInsensitiveDict
 from multiprocessing import Queue
 import sys
