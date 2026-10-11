@@ -6,7 +6,7 @@ from requests.structures import CaseInsensitiveDict
 
 class Mode:
 
-    FOLDER_PATH = __file__+"/../../../"+"secrets/"
+    FOLDER_PATH = __file__+"/../../"+"secrets/"
 
     def __init__(self):
         self._config = self.loadConfig()

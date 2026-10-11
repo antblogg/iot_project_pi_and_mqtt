@@ -1,4 +1,4 @@
-from bridge.modes.Mode import Mode
+from modes.Mode import Mode
 
 class MainMenu(Mode):
     def __init__(self):

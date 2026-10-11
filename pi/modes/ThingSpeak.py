@@ -1,4 +1,4 @@
-from bridge.modes.Mode import Mode
+from modes.Mode import Mode
 import requests
 import time
 import sys

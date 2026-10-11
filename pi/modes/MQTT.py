@@ -1,7 +1,7 @@
 
 import json
 import time
-from bridge.modes.Mode import Mode
+from modes.Mode import Mode
 import paho.mqtt.client as paho
 import random
 from requests.structures import CaseInsensitiveDict
