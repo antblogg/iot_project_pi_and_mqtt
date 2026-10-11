@@ -17,7 +17,7 @@ from bridge.modes.Mode import Mode
 class ModeDatabase(Mode):
     def __init__(self, messages: Queue): 
         super().__init__()
-        self.config = self._config
+        self.config =CaseInsensitiveDict( self._config)
         self.messages = messages
         self.mongoclient = None
         self.backgroundThread = threading.Thread(target=self.buildABridge, daemon=True)
@@ -86,14 +86,14 @@ class ModeDatabase(Mode):
 
     def setCollectionName(self):
         newName = self.setConfigEntry("mongodb","collection")
-        self.config = self._config
+        self.config =CaseInsensitiveDict( self._config)
         if newName is not None:
             self.collection = newName
             _ = self.tryConnect()
 
     def setDatabaseName(self):
         newName = self.setConfigEntry("mongodb","database")
-        self.config = self._config
+        self.config =CaseInsensitiveDict( self._config)
         if newName is not None:
             self.collection = newName
             _ = self.tryConnect()

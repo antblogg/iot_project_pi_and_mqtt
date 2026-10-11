@@ -82,7 +82,7 @@ class ModeMQTT(Mode):
 
     def setTopic(self):
         self.setConfigEntry("MQTT","topic")
-        self.config = self._config["MQTT"]
+        self.config =CaseInsensitiveDict( self._config["MQTT"])
 
     def setBrokerIp(self):
         if not self.validatePassword(): return
@@ -94,7 +94,7 @@ class ModeMQTT(Mode):
         [broker, port] = newName.split("/")
         self.writeConfig({"MQTT": {"broker" : broker}})
         self.writeConfig({"MQTT": {"port" : port}})
-        self.config = self._config["MQTT"]
+        self.config =CaseInsensitiveDict( self._config["MQTT"])
     
     def on_connect(self,client, userdata, flags, reason_code, properties):
         self.connectionStatus = True

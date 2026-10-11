@@ -14,7 +14,7 @@ class ModeMQTT(Mode):
     def __init__(self, sharedQueue: Queue) -> None:
         super().__init__()
         client_id = f'python-mqtt-{random.randint(0, 1000)}'
-        self.config: CaseInsensitiveDict = self._config["MQTT"]
+        self.config: CaseInsensitiveDict =CaseInsensitiveDict( self._config["MQTT"])
         self.sharedQueue = sharedQueue
         
         broker = self.config["broker"]
@@ -82,7 +82,7 @@ class ModeMQTT(Mode):
 
     def setTopic(self):
         self.setConfigEntry("MQTT","topic")
-        self.config = self._config["MQTT"]
+        self.config =CaseInsensitiveDict( self._config["MQTT"])
 
     def setBrokerIp(self):
         if not self.validatePassword(): return
@@ -94,7 +94,7 @@ class ModeMQTT(Mode):
         [broker, port] = newName.split("/")
         self.writeConfig({"MQTT": {"broker" : broker}})
         self.writeConfig({"MQTT": {"port" : port}})
-        self.config = self._config["MQTT"]
+        self.config =CaseInsensitiveDict( self._config["MQTT"])
     
     def on_connect(self,client, userdata, flags, reason_code, properties):
         self.connectionStatus = True
@@ -116,7 +116,7 @@ class ModeMQTT(Mode):
     def publishMessage(self, msg: dict):
         self.client.publish(
             topic=self.config["topic"],
-            payload=json.dumps(msg, indent=3)
+            payload=json.dumps(msg, indent=2)
             )
         
     def _setStop(self, event, signal):

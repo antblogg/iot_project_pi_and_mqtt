@@ -9,7 +9,7 @@ class Mode:
     FOLDER_PATH = __file__+"/../../../"+"secrets/"
 
     def __init__(self):
-        self._config = self.loadConfig()
+        self._config =CaseInsensitiveDict( self.loadConfig())
         pass
 
     def loadConfig(self) -> CaseInsensitiveDict:
@@ -52,6 +52,6 @@ class Mode:
             print("Cancelled update!")
             return
         self.writeConfig({subsystem: {configEntry :newName}})
-        self._config = self.loadConfig()
+        self._config =CaseInsensitiveDict( self.loadConfig())
         print("Successfully wrote", newName, "as the database name.")
         return newName

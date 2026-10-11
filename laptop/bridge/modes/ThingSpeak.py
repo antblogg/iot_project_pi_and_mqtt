@@ -1,12 +1,13 @@
-from bridge.modes.Mode import Mode
+from modes.Mode import Mode
 import requests
 import time
 import sys
+from requests.structures import CaseInsensitiveDict
 
 class ModeThingSpeak(Mode):
     def __init__(self):
         super().__init__()
-        self.config = self._config["thingspeak"]
+        self.config =CaseInsensitiveDict( self._config["thingspeak"])
 
 
     def enterMode(self):
@@ -37,9 +38,14 @@ class ModeThingSpeak(Mode):
             }
         return super().getUserInput(prompt, options)
 
-    def getLastReading(self):
-        write_api_key = self.config["thingspeak"]["write_API_key"]
-        lastReading = requests.get("")
+    def writeValue(self, value):
+        writeKey = self.config["WRITE_API_KEY"]
+        url =(
+            "https://api.thingspeak.com/update?"
+            +f"api_key={writeKey}&field1={value}"
+        )
+        _ = requests.get(url)
+
 
     def isConnected(self):
         return True
