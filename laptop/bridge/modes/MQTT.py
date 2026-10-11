@@ -113,6 +113,11 @@ class ModeMQTT(Mode):
             print(json.dumps(d, indent=1))
         self.sharedQueue.put_nowait(d)
 
+    def publishMessage(self, msg: dict):
+        self.client.publish(
+            topic=self.config["topic"],
+            payload=json.dumps(msg, indent=2)
+            )
 
     def _setStop(self, event, signal):
         self.stopFlag = True
