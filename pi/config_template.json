@@ -1,0 +1,20 @@
+{
+    "common":{
+        "password": "username"
+    },
+    "thingspeak":{
+        "write_api_key" : "2890183"
+    },
+    "mongodb":{
+        "connectionsstring": "mongodb://database:4242/",
+         "database": "MyDb",
+         "collection": "MyCollection"
+    },
+    "MQTT":
+    {
+        "broker": "192.168.4.20",
+        "port": "177013",
+        "topic": "myTopic/foo"
+    }
+
+}
