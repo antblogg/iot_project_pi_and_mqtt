@@ -29,17 +29,12 @@ class Mode:
 
     def getUserInput(self, prompt: str, options: dict):
         userin = "some long phrase which is super unlikely to come up by accident - also jclkxhzhiuowajdaw+0sdvfudihb"
-        print("super getuserinput")
         while userin not in options.keys():
-            print("tryinnnggg")
             print(prompt)
             for k, v in options.items():
                 print(f"{k} - {v}")
-            print("asking for input")
             userin = input(
             ).upper()
-            print("got", userin)
-        print("returned", userin)
         return userin
 
     def validatePassword(self) -> bool:

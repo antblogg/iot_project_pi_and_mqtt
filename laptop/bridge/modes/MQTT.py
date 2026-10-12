@@ -29,9 +29,9 @@ class ModeMQTT(Mode):
         self.client.on_connect = self.on_connect
         self.client.on_disconnect = self.on_disconnect
         self.client.connect(broker, port)
-        #self.client.loop_start()
-        #self.client.subscribe(self.config["topic"])
-        #self.client.on_message = self.on_message
+        self.client.loop_start()
+        self.client.subscribe(self.config["topic"])
+        self.client.on_message = self.on_message
 
     def enterMode(self):
         self.printMenu()

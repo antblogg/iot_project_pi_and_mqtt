@@ -21,8 +21,8 @@ class ModeDatabase(Mode):
         self.messages = messages
         self.mongoclient = None
         self.backgroundThread = threading.Thread(target=self.buildABridge, daemon=True)
-        #self.backgroundThread.start()
-        #connected = self.tryConnect()
+        self.backgroundThread.start()
+        connected = self.tryConnect()
 
     def tryConnect(self)-> bool:
         self.menuStopFlag = False
