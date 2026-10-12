@@ -12,7 +12,7 @@ import signal
 import time
 
 
-from bridge.modes.Mode import Mode
+from .Mode import Mode
 
 class ModeDatabase(Mode):
     def __init__(self, messages: Queue): 
@@ -21,8 +21,8 @@ class ModeDatabase(Mode):
         self.messages = messages
         self.mongoclient = None
         self.backgroundThread = threading.Thread(target=self.buildABridge, daemon=True)
-        self.backgroundThread.start()
-        connected = self.tryConnect()
+        #self.backgroundThread.start()
+        #connected = self.tryConnect()
 
     def tryConnect(self)-> bool:
         self.menuStopFlag = False
@@ -37,7 +37,7 @@ class ModeDatabase(Mode):
         self.database = self.mongoclient.get_database(databaseName)
         self.collection = self.database.get_collection(collectionName)
 
-        tryFindOne = threading.Thread(target=self.collection.find_one, daemon=False)
+        tryFindOne = threading.Thread(target=self.collection.find_one, daemon=True)
         tryFindOne.start()
         tryFindOne.join(timeout=1.0)
         itemFound = not tryFindOne.is_alive()

@@ -12,7 +12,7 @@ import signal
 import time
 
 
-from modes.Mode import Mode
+from .Mode import Mode
 
 class ModeDatabase(Mode):
     def __init__(self, messages: Queue): 

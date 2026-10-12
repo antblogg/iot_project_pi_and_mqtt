@@ -1,4 +1,4 @@
-from modes.Mode import Mode
+from .Mode import Mode
 import requests
 import time
 import sys

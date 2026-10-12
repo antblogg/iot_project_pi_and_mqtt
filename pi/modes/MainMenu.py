@@ -1,4 +1,4 @@
-from modes.Mode import Mode
+from .Mode import Mode
 
 class MainMenu(Mode):
     def __init__(self):

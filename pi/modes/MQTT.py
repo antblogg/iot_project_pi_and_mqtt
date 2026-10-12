@@ -1,7 +1,7 @@
 
 import json
 import time
-from modes.Mode import Mode
+from .Mode import Mode
 import paho.mqtt.client as paho
 import random
 from requests.structures import CaseInsensitiveDict
@@ -111,7 +111,8 @@ class ModeMQTT(Mode):
         d: dict = json.loads(x)
         if self.isPrinting:
             print(json.dumps(d, indent=1))
-        self.sharedQueue.put_nowait(d)
+        if not self.sharedQueue.full():
+            self.sharedQueue.put_nowait(d)
 
     def publishMessage(self, msg: dict):
         self.client.publish(
