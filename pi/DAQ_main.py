@@ -2,16 +2,42 @@ from modes.MQTT import ModeMQTT
 from modes.ThingSpeak import ModeThingSpeak
 from multiprocessing import Queue
 import signal
+import random
 import time
 
+HARDWARE_CONNECTED = True
 
-import RPi.GPIO as GPIO
-from sensorCommunication.I2C import I2C
-from sensorCommunication.spi import SpiInterface
+class dummySensor:
+    def getReading(self, *args, **kwargs): return 23.67 + random.gauss(0,4)
+    def close(self, *args, **kwargs): return
 
-class dummySensor():
-    def getReading(self): return 23.67
-    def close(self): return
+class dummyPwm:
+    def start(self, *args, **kwargs): return
+    def stop(self, *args, **kwargs): return
+    def ChangeDutyCycle(self, *args, **kwargs): return
+
+class dummyGPIO:
+    IN = 0
+    OUT = 1
+    LOW = 0
+    HIGH = 1
+    BCM = 2
+    PUD_UP = 3
+
+    def setmode(self, *args, **kwargs): return
+    def setup(self, *args, **kwargs): return
+    def PWM(self, *args,**kwargs): return dummyPwm()
+    def input(self,*args,**kwargs): return self.HIGH
+    def cleanup(self, *args, **kwargs): return
+
+
+if HARDWARE_CONNECTED:
+    import RPi.GPIO as GPIO
+    from sensorCommunication.I2C import I2C
+    from sensorCommunication.spi import SpiInterface
+else:
+    GPIO = dummyGPIO()
+
 
 
 # Alarm limits
@@ -48,13 +74,19 @@ def main():
     ts = ModeThingSpeak()
 
     # Choose either I2C or SPI sensor. using I2C here.
-    #sensor = I2C()
-    #sensor = SpiInterface()
-    sensor = dummySensor()
 
-    sensorname = "Dummy temperature sensor"
+    if HARDWARE_CONNECTED:
+        sensor = I2C()
+        #sensor = SpiInterface()
+    else:
+        sensor = dummySensor()
 
-    # Raspberry Pi GPIO initialization
+    if HARDWARE_CONNECTED:
+        sensorname = "I2C temperature sensor"
+    else:
+        sensorname = "Dummy temperature sensor"
+
+        # Raspberry Pi GPIO initialization
     GPIO.setmode(GPIO.BCM)
 
     GPIO.setup(LED_PIN, GPIO.OUT)
@@ -88,6 +120,7 @@ def main():
             else:
                 alarmActive = False
                 alarmAcknowledged = False
+                
                 pwm.ChangeDutyCycle(0)
 
             # Alarm acknowledgment

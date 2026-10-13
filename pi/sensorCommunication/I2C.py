@@ -6,13 +6,7 @@ class I2C:
     filterConstant = 0.9 # (0.0, 1.0]
 
     I2CChannel = 1
-    I2CAdress = 0x48 # Todo find address
-    """
-    TCA0 = 0x48
-    TCA1 = 0x49
-    ...
-    TCA7 = 0x4F
-    """
+    I2CAdress = 0x48 
     I2CReadRegister = 0x00 
 
     def __init__(self):
