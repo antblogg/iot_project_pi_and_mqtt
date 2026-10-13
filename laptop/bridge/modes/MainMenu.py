@@ -5,7 +5,6 @@ class MainMenu(Mode):
         super().__init__()
 
     def getUserInput(self):
-        print("getuserinput")
         prompt = "Choose a subfunction"
         options = {
             "S": "Show system summary",
