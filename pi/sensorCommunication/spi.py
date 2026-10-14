@@ -29,7 +29,7 @@ class SpiInterface:
     @staticmethod
     def _scaleSignal(raw):
         ADC_MAX = 1023
-        ADC_VREF = 3.3
+        ADC_VREF = 5.0
 
         TMP36_ZERO_C = 0.5
         TMP36_C_PER_V = 100.0

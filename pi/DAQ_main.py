@@ -86,7 +86,7 @@ def main():
     else:
         sensorname = "Dummy temperature sensor"
 
-        # Raspberry Pi GPIO initialization
+    # Raspberry Pi GPIO initialization
     GPIO.setmode(GPIO.BCM)
 
     GPIO.setup(LED_PIN, GPIO.OUT)
@@ -135,7 +135,7 @@ def main():
                 brightness = getAlarmBrightness(val)
                 pwm.ChangeDutyCycle(brightness)
 
-            time.sleep(5)
+            time.sleep(0.5)
 
     except KeyboardInterrupt:
         pass
